@@ -234,32 +234,59 @@ a:hover {
   padding: 0;
   z-index: 1001;
   transition: transform var(--duration-normal) var(--transition-standard);
+  /* Enhanced touch target for mobile */
+  min-width: 44px;
+  min-height: 44px;
+  position: relative;
+  /* Prevent tap highlight on mobile */
+  -webkit-tap-highlight-color: transparent;
+  /* Ensure it's above other elements */
+  touch-action: manipulation;
 }
 
 .nav-toggle:hover {
   transform: scale(1.1);
 }
 
+.nav-toggle:active {
+  transform: scale(0.95);
+}
+
+/* Center the hamburger lines within the larger touch target */
+.nav-toggle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  pointer-events: none;
+}
+
 .hamburger-line {
-  width: 100%;
+  width: 24px;
   height: 3px;
   background-color: var(--color-text-primary);
   border-radius: 2px;
   transition: all var(--duration-normal) var(--transition-standard);
   transform-origin: center;
+  position: relative;
+  margin: 0 auto;
 }
 
 /* Hamburger Animation */
 .nav-toggle.active .hamburger-line:nth-child(1) {
-  transform: rotate(45deg) translate(6px, 6px);
+  transform: rotate(45deg) translate(5px, 5px);
 }
 
 .nav-toggle.active .hamburger-line:nth-child(2) {
   opacity: 0;
+  transform: scale(0);
 }
 
 .nav-toggle.active .hamburger-line:nth-child(3) {
-  transform: rotate(-45deg) translate(6px, -6px);
+  transform: rotate(-45deg) translate(5px, -5px);
 }
 
 /* Desktop Navigation Menu */

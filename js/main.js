@@ -56,38 +56,65 @@ class PortfolioApp {
     const navLinks = document.querySelectorAll('.nav-link');
     const body = document.body;
 
-    if (!navToggle || !navMenu) return;
+    if (!navToggle || !navMenu) {
+      console.warn('Mobile menu elements not found');
+      return;
+    }
 
-    // Toggle menu on hamburger click
-    navToggle.addEventListener('click', () => {
+    console.log('Setting up mobile menu...');
+
+    // Enhanced click handler with touch support
+    const toggleMenu = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
       const isActive = navMenu.classList.contains('active');
+      console.log('Menu toggle clicked, currently active:', isActive);
       
       if (isActive) {
         this.closeMobileMenu();
       } else {
         this.openMobileMenu();
       }
-    });
+    };
+
+    // Add multiple event listeners for better mobile compatibility
+    navToggle.addEventListener('click', toggleMenu, { passive: false });
+    navToggle.addEventListener('touchend', toggleMenu, { passive: false });
+    
+    // Prevent double-tap zoom on the hamburger button
+    navToggle.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+    }, { passive: false });
 
     // Close menu when clicking on nav links
     navLinks.forEach(link => {
-      link.addEventListener('click', () => {
+      const closeMenu = (e) => {
+        console.log('Nav link clicked, closing menu');
         this.closeMobileMenu();
-      });
+      };
+      
+      link.addEventListener('click', closeMenu);
+      link.addEventListener('touchend', closeMenu, { passive: false });
     });
 
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
+    // Close menu when clicking outside (enhanced for mobile)
+    const closeOnOutsideClick = (e) => {
       const isClickInsideNav = navToggle.contains(e.target) || navMenu.contains(e.target);
       
       if (!isClickInsideNav && navMenu.classList.contains('active')) {
+        console.log('Outside click detected, closing menu');
         this.closeMobileMenu();
       }
-    });
+    };
+    
+    document.addEventListener('click', closeOnOutsideClick);
+    document.addEventListener('touchend', closeOnOutsideClick, { passive: true });
 
     // Close menu on escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+        console.log('Escape key pressed, closing menu');
         this.closeMobileMenu();
       }
     });
@@ -95,15 +122,36 @@ class PortfolioApp {
     // Handle window resize
     window.addEventListener('resize', () => {
       if (window.innerWidth > 767 && navMenu.classList.contains('active')) {
+        console.log('Window resized to desktop, closing menu');
         this.closeMobileMenu();
       }
     });
+
+    // Add visual feedback for touch
+    navToggle.addEventListener('touchstart', () => {
+      navToggle.style.opacity = '0.7';
+    }, { passive: true });
+
+    navToggle.addEventListener('touchend', () => {
+      setTimeout(() => {
+        navToggle.style.opacity = '1';
+      }, 150);
+    }, { passive: true });
+
+    console.log('Mobile menu setup complete');
   }
 
   openMobileMenu() {
     const navToggle = document.getElementById('navToggle');
     const navMenu = document.getElementById('navMenu');
     const body = document.body;
+
+    if (!navToggle || !navMenu) {
+      console.error('Cannot open mobile menu - elements not found');
+      return;
+    }
+
+    console.log('Opening mobile menu...');
 
     navToggle.classList.add('active');
     navMenu.classList.add('active');
@@ -119,6 +167,8 @@ class PortfolioApp {
 
     // Trap focus within menu
     this.trapFocus(navMenu);
+    
+    console.log('Mobile menu opened');
   }
 
   closeMobileMenu() {
@@ -126,12 +176,21 @@ class PortfolioApp {
     const navMenu = document.getElementById('navMenu');
     const body = document.body;
 
+    if (!navToggle || !navMenu) {
+      console.error('Cannot close mobile menu - elements not found');
+      return;
+    }
+
+    console.log('Closing mobile menu...');
+
     navToggle.classList.remove('active');
     navMenu.classList.remove('active');
     body.classList.remove('nav-open');
 
     // Remove focus trap
     this.removeFocusTrap();
+    
+    console.log('Mobile menu closed');
   }
 
   // Focus trap for accessibility

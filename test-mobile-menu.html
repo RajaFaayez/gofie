@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Menu Test - GofieVFX Portfolio</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        body {
+            margin: 0;
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-primary);
+        }
+        
+        .test-info {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 10000;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .test-info h4 {
+            margin: 0 0 5px 0;
+            color: var(--color-accent-primary);
+        }
+        
+        .debug-log {
+            font-family: monospace;
+            font-size: 11px;
+            line-height: 1.2;
+        }
+        
+        .main-content {
+            padding: 100px 20px 200px;
+            text-align: center;
+        }
+        
+        .test-instructions {
+            background: var(--color-bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .test-instructions h2 {
+            color: var(--color-accent-primary);
+            margin-top: 0;
+        }
+        
+        .test-button {
+            background: var(--color-accent-primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+            touch-action: manipulation;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation (same as main site) -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">GofieVFX</a>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+            
+            <!-- Navigation Menu -->
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item">
+                    <a href="#hero" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#results" class="nav-link">Results</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="test-instructions">
+            <h2>📱 Mobile Menu Debug Test</h2>
+            <p><strong>Instructions:</strong></p>
+            <ul style="text-align: left;">
+                <li>Resize browser to mobile width (&lt; 768px) or use mobile device</li>
+                <li>Tap the hamburger menu (☰) in the top-right corner</li>
+                <li>Menu should slide in from the right</li>
+                <li>Check debug info at bottom of screen</li>
+                <li>Try the test buttons below</li>
+            </ul>
+        </div>
+        
+        <button class="test-button" onclick="testMenuToggle()">Test Menu Toggle</button>
+        <button class="test-button" onclick="testMenuOpen()">Force Open Menu</button>
+        <button class="test-button" onclick="testMenuClose()">Force Close Menu</button>
+        <button class="test-button" onclick="clearDebugLog()">Clear Debug Log</button>
+    </div>
+
+    <!-- Debug Info Panel -->
+    <div class="test-info">
+        <h4>Debug Information</h4>
+        <div id="debugLog" class="debug-log">
+            Initializing mobile menu test...<br>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        let debugLog = [];
+        let app;
+        
+        function addDebugLog(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logMessage = `[${timestamp}] ${message}`;
+            debugLog.push(logMessage);
+            
+            // Keep only last 20 messages
+            if (debugLog.length > 20) {
+                debugLog = debugLog.slice(-20);
+            }
+            
+            const debugElement = document.getElementById('debugLog');
+            if (debugElement) {
+                debugElement.innerHTML = debugLog.join('<br>');
+                debugElement.scrollTop = debugElement.scrollHeight;
+            }
+            
+            console.log(logMessage);
+        }
+        
+        function testMenuToggle() {
+            addDebugLog('🧪 Manual toggle test triggered');
+            const navToggle = document.getElementById('navToggle');
+            if (navToggle) {
+                navToggle.click();
+                addDebugLog('✅ Hamburger button clicked programmatically');
+            } else {
+                addDebugLog('❌ Hamburger button not found');
+            }
+        }
+        
+        function testMenuOpen() {
+            addDebugLog('🧪 Force open test triggered');
+            if (app && typeof app.openMobileMenu === 'function') {
+                app.openMobileMenu();
+                addDebugLog('✅ Menu opened via app method');
+            } else {
+                addDebugLog('❌ App or openMobileMenu method not available');
+            }
+        }
+        
+        function testMenuClose() {
+            addDebugLog('🧪 Force close test triggered');
+            if (app && typeof app.closeMobileMenu === 'function') {
+                app.closeMobileMenu();
+                addDebugLog('✅ Menu closed via app method');
+            } else {
+                addDebugLog('❌ App or closeMobileMenu method not available');
+            }
+        }
+        
+        function clearDebugLog() {
+            debugLog = [];
+            document.getElementById('debugLog').innerHTML = 'Debug log cleared.<br>';
+        }
+        
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            addDebugLog('🚀 DOM loaded, initializing app...');
+            
+            try {
+                app = new PortfolioApp();
+                addDebugLog('✅ PortfolioApp initialized successfully');
+                
+                // Check if elements exist
+                const navToggle = document.getElementById('navToggle');
+                const navMenu = document.getElementById('navMenu');
+                
+                if (navToggle) {
+                    addDebugLog('✅ Hamburger button found');
+                    
+                    // Add additional event listeners for debugging
+                    navToggle.addEventListener('touchstart', () => {
+                        addDebugLog('👆 Touch start on hamburger');
+                    }, { passive: true });
+                    
+                    navToggle.addEventListener('touchend', () => {
+                        addDebugLog('👆 Touch end on hamburger');
+                    }, { passive: true });
+                    
+                    navToggle.addEventListener('click', () => {
+                        addDebugLog('🖱️ Click event on hamburger');
+                    });
+                    
+                } else {
+                    addDebugLog('❌ Hamburger button not found');
+                }
+                
+                if (navMenu) {
+                    addDebugLog('✅ Navigation menu found');
+                } else {
+                    addDebugLog('❌ Navigation menu not found');
+                }
+                
+                // Check screen size
+                addDebugLog(`📱 Screen width: ${window.innerWidth}px`);
+                addDebugLog(`📱 Is mobile: ${window.innerWidth <= 767 ? 'Yes' : 'No'}`);
+                
+                // Check touch support
+                addDebugLog(`👆 Touch support: ${'ontouchstart' in window ? 'Yes' : 'No'}`);
+                
+                // Check user agent
+                addDebugLog(`🌐 User agent: ${navigator.userAgent.substring(0, 50)}...`);
+                
+            } catch (error) {
+                addDebugLog('❌ Error initializing app: ' + error.message);
+                console.error('App initialization error:', error);
+            }
+        });
+        
+        // Monitor window resize
+        window.addEventListener('resize', () => {
+            addDebugLog(`📱 Window resized to: ${window.innerWidth}px`);
+        });
+        
+        // Monitor orientation change
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                addDebugLog(`📱 Orientation changed, new width: ${window.innerWidth}px`);
+            }, 100);
+        });
+    </script>
+</body>
+</html>
