@@ -1,0 +1,94 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-02-01T21:52:37.410Z",
+  "images": [
+    {
+      "id": 1,
+      "original": "Source/1.png",
+      "webp": "assets/portfolio/webp/1.webp",
+      "fallback": "assets/portfolio/fallback/1.jpg",
+      "alt": "Portfolio Sample 1",
+      "loading": "eager"
+    },
+    {
+      "id": 2,
+      "original": "Source/2.png",
+      "webp": "assets/portfolio/webp/2.webp",
+      "fallback": "assets/portfolio/fallback/2.jpg",
+      "alt": "Portfolio Sample 2",
+      "loading": "eager"
+    },
+    {
+      "id": 3,
+      "original": "Source/3.png",
+      "webp": "assets/portfolio/webp/3.webp",
+      "fallback": "assets/portfolio/fallback/3.jpg",
+      "alt": "Portfolio Sample 3",
+      "loading": "eager"
+    },
+    {
+      "id": 4,
+      "original": "Source/4.png",
+      "webp": "assets/portfolio/webp/4.webp",
+      "fallback": "assets/portfolio/fallback/4.jpg",
+      "alt": "Portfolio Sample 4",
+      "loading": "lazy"
+    },
+    {
+      "id": 5,
+      "original": "Source/5.png",
+      "webp": "assets/portfolio/webp/5.webp",
+      "fallback": "assets/portfolio/fallback/5.jpg",
+      "alt": "Portfolio Sample 5",
+      "loading": "lazy"
+    },
+    {
+      "id": 6,
+      "original": "Source/6.png",
+      "webp": "assets/portfolio/webp/6.webp",
+      "fallback": "assets/portfolio/fallback/6.jpg",
+      "alt": "Portfolio Sample 6",
+      "loading": "lazy"
+    },
+    {
+      "id": 7,
+      "original": "Source/7.png",
+      "webp": "assets/portfolio/webp/7.webp",
+      "fallback": "assets/portfolio/fallback/7.jpg",
+      "alt": "Portfolio Sample 7",
+      "loading": "lazy"
+    },
+    {
+      "id": 8,
+      "original": "Source/8.png",
+      "webp": "assets/portfolio/webp/8.webp",
+      "fallback": "assets/portfolio/fallback/8.jpg",
+      "alt": "Portfolio Sample 8",
+      "loading": "lazy"
+    },
+    {
+      "id": 9,
+      "original": "Source/9.png",
+      "webp": "assets/portfolio/webp/9.webp",
+      "fallback": "assets/portfolio/fallback/9.jpg",
+      "alt": "Portfolio Sample 9",
+      "loading": "lazy"
+    },
+    {
+      "id": 10,
+      "original": "Source/10.png",
+      "webp": "assets/portfolio/webp/10.webp",
+      "fallback": "assets/portfolio/fallback/10.jpg",
+      "alt": "Portfolio Sample 10",
+      "loading": "lazy"
+    },
+    {
+      "id": 11,
+      "original": "Source/11.png",
+      "webp": "assets/portfolio/webp/11.webp",
+      "fallback": "assets/portfolio/fallback/11.jpg",
+      "alt": "Portfolio Sample 11",
+      "loading": "lazy"
+    }
+  ]
+}

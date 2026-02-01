@@ -1,0 +1,190 @@
+{
+  "timestamp": "2026-02-01T21:53:57.976Z",
+  "summary": {
+    "totalTests": 4,
+    "passed": 4,
+    "failed": 0,
+    "score": 100
+  },
+  "fileSizes": {
+    "original": {
+      "html": {
+        "path": "index.html",
+        "size": 18678,
+        "exists": true
+      },
+      "css": {
+        "path": "styles/main.css",
+        "size": 36434,
+        "exists": true
+      },
+      "js": {
+        "path": "js/main.js",
+        "size": 40440,
+        "exists": true
+      }
+    },
+    "optimized": {
+      "html": {
+        "path": "dist/index.html",
+        "size": 18927,
+        "exists": true
+      },
+      "css": {
+        "path": "dist/css/main.min.css",
+        "size": 27425,
+        "exists": true
+      },
+      "js": {
+        "path": "dist/js/main.min.js",
+        "size": 25330,
+        "exists": true
+      }
+    },
+    "compression": {
+      "html": {
+        "ratio": -0.013331191776421458,
+        "savings": -249,
+        "percentage": "-1.3"
+      },
+      "css": {
+        "ratio": 0.2472690344184004,
+        "savings": 9009,
+        "percentage": "24.7"
+      },
+      "js": {
+        "ratio": 0.37363996043521264,
+        "savings": 15110,
+        "percentage": "37.4"
+      }
+    }
+  },
+  "images": {
+    "sourceImages": [
+      {
+        "name": "1.png",
+        "path": "Source\\1.png",
+        "size": 144671
+      },
+      {
+        "name": "10.png",
+        "path": "Source\\10.png",
+        "size": 163488
+      },
+      {
+        "name": "11.png",
+        "path": "Source\\11.png",
+        "size": 169020
+      },
+      {
+        "name": "2.png",
+        "path": "Source\\2.png",
+        "size": 144716
+      },
+      {
+        "name": "3.png",
+        "path": "Source\\3.png",
+        "size": 169015
+      },
+      {
+        "name": "4.png",
+        "path": "Source\\4.png",
+        "size": 196119
+      },
+      {
+        "name": "5.png",
+        "path": "Source\\5.png",
+        "size": 187722
+      },
+      {
+        "name": "6.png",
+        "path": "Source\\6.png",
+        "size": 129122
+      },
+      {
+        "name": "7.png",
+        "path": "Source\\7.png",
+        "size": 145870
+      },
+      {
+        "name": "8.png",
+        "path": "Source\\8.png",
+        "size": 159539
+      },
+      {
+        "name": "9.png",
+        "path": "Source\\9.png",
+        "size": 187029
+      }
+    ],
+    "optimizedImages": [],
+    "totalSavings": 0
+  },
+  "loading": {
+    "originalBundle": 95552,
+    "optimizedBundle": 71682,
+    "estimatedLoadTime": {
+      "original": 0,
+      "optimized": 0,
+      "3G": {
+        "original": 456,
+        "optimized": 342,
+        "improvement": 114
+      },
+      "4G": {
+        "original": 73,
+        "optimized": 55,
+        "improvement": 18
+      },
+      "WiFi": {
+        "original": 15,
+        "optimized": 11,
+        "improvement": 4
+      }
+    },
+    "networkSpeeds": {
+      "3G": 1.6,
+      "4G": 10,
+      "WiFi": 50
+    }
+  },
+  "lazyLoading": {
+    "lazyLoadingScript": true,
+    "lazyImages": 11,
+    "lazyVideos": 1,
+    "lazyContent": 0
+  },
+  "validation": {
+    "passed": 4,
+    "failed": 0,
+    "tests": [
+      {
+        "name": "CSS file size under threshold",
+        "threshold": 50000,
+        "actual": 27425,
+        "passed": true
+      },
+      {
+        "name": "JavaScript file size under threshold",
+        "threshold": 60000,
+        "actual": 25330,
+        "passed": true
+      },
+      {
+        "name": "Minimum compression ratio achieved",
+        "threshold": 0.2,
+        "actual": 0.2472690344184004,
+        "passed": true
+      },
+      {
+        "name": "Load time under 3 seconds on 3G",
+        "threshold": 3000,
+        "actual": 342,
+        "passed": true
+      }
+    ]
+  },
+  "recommendations": [
+    "All performance tests passed! Consider implementing additional optimizations for even better performance."
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "timestamp": "2026-02-01T21:52:37.487Z",
+  "buildTime": 79,
+  "success": true,
+  "steps": [
+    {
+      "name": "Image Optimization Setup",
+      "time": 8,
+      "success": true
+    },
+    {
+      "name": "Asset Minification",
+      "time": 35,
+      "success": true
+    },
+    {
+      "name": "Performance Testing",
+      "time": 23,
+      "success": true
+    },
+    {
+      "name": "Build Validation",
+      "time": 2,
+      "success": true,
+      "details": {
+        "success": true,
+        "issues": [],
+        "checks": [
+          {
+            "name": "File exists: dist/index.html",
+            "passed": true
+          },
+          {
+            "name": "File exists: dist/css/main.min.css",
+            "passed": true
+          },
+          {
+            "name": "File exists: dist/js/main.min.js",
+            "passed": true
+          },
+          {
+            "name": "File exists: dist/js/email-config.min.js",
+            "passed": true
+          },
+          {
+            "name": "File exists: assets/portfolio/manifest.json",
+            "passed": true
+          },
+          {
+            "name": "File exists: js/lazy-loading.js",
+            "passed": true
+          },
+          {
+            "name": "File size check: dist/css/main.min.css (27425 bytes)",
+            "passed": true
+          },
+          {
+            "name": "File size check: dist/js/main.min.js (25330 bytes)",
+            "passed": true
+          },
+          {
+            "name": "Contains minified CSS reference",
+            "passed": true
+          },
+          {
+            "name": "Contains minified JS reference",
+            "passed": true
+          },
+          {
+            "name": "Contains performance optimizations",
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "Deployment Preparation",
+      "time": 9,
+      "success": true,
+      "details": {
+        "success": true,
+        "files": [
+          "dist/js/lazy-loading.js",
+          "dist/assets/portfolio/manifest.json",
+          "dist/assets/portfolio/optimized-images.css",
+          "dist/assets/portfolio/optimized-images.js",
+          "dist/deployment-manifest.json"
+        ],
+        "issues": []
+      }
+    }
+  ],
+  "error": null,
+  "environment": {
+    "nodeVersion": "v24.13.0",
+    "platform": "win32",
+    "cwd": "C:\\Users\\Raja\\Desktop\\GofieVFX"
+  }
+}

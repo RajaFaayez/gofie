@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slideshow Test - GofieVFX Portfolio</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-primary);
+        }
+        
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .test-info {
+            background: var(--color-bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .test-info h1 {
+            color: var(--color-accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .test-info p {
+            margin: 5px 0;
+        }
+        
+        .instructions {
+            background: var(--color-bg-accent);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .instructions h3 {
+            color: var(--color-accent-primary);
+            margin-top: 0;
+        }
+        
+        .instructions ul {
+            text-align: left;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-info">
+            <h1>🎯 Slideshow Functionality Test</h1>
+            <p>Testing touch/swipe and drag functionality for the portfolio slider</p>
+        </div>
+        
+        <div class="instructions">
+            <h3>📱 Mobile Testing</h3>
+            <ul>
+                <li>Swipe left/right on the slideshow</li>
+                <li>Should change slides smoothly</li>
+                <li>Should not interfere with page scrolling</li>
+            </ul>
+            
+            <h3>🖥️ Desktop Testing</h3>
+            <ul>
+                <li>Click and drag left/right on the slideshow</li>
+                <li>Should provide visual feedback during drag</li>
+                <li>Should change slides on sufficient drag distance</li>
+                <li>Use arrow buttons for navigation</li>
+            </ul>
+        </div>
+        
+        <!-- Portfolio Slider Test -->
+        <div class="results" style="padding: 40px 0;">
+            <div class="portfolio-slider">
+                <div class="slider-container">
+                    <div class="slider-track" id="sliderTrack">
+                        <!-- Portfolio images -->
+                        <div class="slide">
+                            <img src="Source/1.png" alt="Portfolio Sample 1" loading="lazy">
+                        </div>
+                        <div class="slide">
+                            <img src="Source/2.png" alt="Portfolio Sample 2" loading="lazy">
+                        </div>
+                        <div class="slide">
+                            <img src="Source/3.png" alt="Portfolio Sample 3" loading="lazy">
+                        </div>
+                        <div class="slide">
+                            <img src="Source/4.png" alt="Portfolio Sample 4" loading="lazy">
+                        </div>
+                        <div class="slide">
+                            <img src="Source/5.png" alt="Portfolio Sample 5" loading="lazy">
+                        </div>
+                        <div class="slide">
+                            <img src="Source/6.png" alt="Portfolio Sample 6" loading="lazy">
+                        </div>
+                        <div class="slide">
+                            <img src="Source/7.png" alt="Portfolio Sample 7" loading="lazy">
+                        </div>
+                        <div class="slide">
+                            <img src="Source/8.png" alt="Portfolio Sample 8" loading="lazy">
+                        </div>
+                        <div class="slide">
+                            <img src="Source/9.png" alt="Portfolio Sample 9" loading="lazy">
+                        </div>
+                        <div class="slide">
+                            <img src="Source/10.png" alt="Portfolio Sample 10" loading="lazy">
+                        </div>
+                        <div class="slide">
+                            <img src="Source/11.png" alt="Portfolio Sample 11" loading="lazy">
+                        </div>
+                    </div>
+                    <button class="slider-btn slider-btn-prev" id="prevBtn" aria-label="Previous image">‹</button>
+                    <button class="slider-btn slider-btn-next" id="nextBtn" aria-label="Next image">›</button>
+                    
+                    <!-- Slider indicators -->
+                    <div class="slider-indicators" id="sliderIndicators">
+                        <button class="indicator active" data-slide="0" aria-label="Go to slide 1"></button>
+                        <button class="indicator" data-slide="1" aria-label="Go to slide 2"></button>
+                        <button class="indicator" data-slide="2" aria-label="Go to slide 3"></button>
+                        <button class="indicator" data-slide="3" aria-label="Go to slide 4"></button>
+                        <button class="indicator" data-slide="4" aria-label="Go to slide 5"></button>
+                        <button class="indicator" data-slide="5" aria-label="Go to slide 6"></button>
+                        <button class="indicator" data-slide="6" aria-label="Go to slide 7"></button>
+                        <button class="indicator" data-slide="7" aria-label="Go to slide 8"></button>
+                        <button class="indicator" data-slide="8" aria-label="Go to slide 9"></button>
+                        <button class="indicator" data-slide="9" aria-label="Go to slide 10"></button>
+                        <button class="indicator" data-slide="10" aria-label="Go to slide 11"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-info">
+            <h3>✅ Expected Behavior</h3>
+            <p><strong>Mobile:</strong> Smooth horizontal swiping without interfering with vertical scrolling</p>
+            <p><strong>Desktop:</strong> Click and drag with visual feedback and smooth transitions</p>
+            <p><strong>Both:</strong> Arrow buttons and indicators should work</p>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="debug-slideshow.js"></script>
+    <script>
+        // Initialize just the slideshow functionality for testing
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 Initializing slideshow test...');
+            
+            // Create a minimal app instance for testing
+            const testApp = new PortfolioApp();
+            
+            console.log('✅ Slideshow test initialized');
+            console.log('📱 Try swiping on mobile or dragging on desktop');
+            console.log('🔍 Check the debug overlay in the top-right corner');
+        });
+    </script>
+</body>
+</html>
