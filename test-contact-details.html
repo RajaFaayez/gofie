@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Details Test - GofieVFX Portfolio</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-primary);
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .test-info {
+            background: var(--color-bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .test-info h1 {
+            color: var(--color-accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .instructions {
+            background: var(--color-bg-accent);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .instructions h3 {
+            color: var(--color-accent-primary);
+            margin-top: 0;
+        }
+        
+        .instructions ul {
+            text-align: left;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .test-results {
+            background: var(--color-bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .test-results h3 {
+            color: var(--color-accent-primary);
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-info">
+            <h1>📧 Contact Details Test</h1>
+            <p>Testing the updated contact details with clickable email and Discord info</p>
+        </div>
+        
+        <div class="instructions">
+            <h3>🧪 Test Instructions</h3>
+            <ul>
+                <li><strong>Email Link:</strong> Click the email contact item - should open your email app</li>
+                <li><strong>Discord Info:</strong> Should display "gofie_vfx" as Discord username</li>
+                <li><strong>Removed Items:</strong> Portfolio/Drive link should not be present</li>
+                <li><strong>Hover Effects:</strong> Contact items should have smooth hover animations</li>
+                <li><strong>Accessibility:</strong> Email link should be keyboard accessible</li>
+            </ul>
+        </div>
+        
+        <!-- Contact Details Test -->
+        <section class="contact-details" id="contact-details">
+            <div class="container">
+                <div class="contact-info">
+                    <a href="mailto:Gofievfx@gmail.com" class="contact-item contact-link">
+                        <span class="contact-icon">📩</span>
+                        <span class="contact-label">Email:</span>
+                        <span class="contact-value">Gofievfx@gmail.com</span>
+                    </a>
+                    <div class="contact-item">
+                        <span class="contact-icon">💬</span>
+                        <span class="contact-label">Discord:</span>
+                        <span class="contact-value">gofie_vfx</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="test-results">
+            <h3>✅ Expected Results</h3>
+            <p><strong>Email:</strong> Clicking should open default email app with "Gofievfx@gmail.com" pre-filled</p>
+            <p><strong>Discord:</strong> Should display "gofie_vfx" (no click action needed)</p>
+            <p><strong>Visual:</strong> Smooth hover effects with color changes and elevation</p>
+            <p><strong>Count:</strong> Only 2 contact items should be visible (email + discord)</p>
+        </div>
+    </div>
+
+    <script>
+        // Test script to verify functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🧪 Contact Details Test Initialized');
+            
+            // Test email link
+            const emailLink = document.querySelector('a[href^="mailto:"]');
+            if (emailLink) {
+                console.log('✅ Email link found:', emailLink.href);
+                
+                // Add click event listener for testing
+                emailLink.addEventListener('click', (e) => {
+                    console.log('📧 Email link clicked - should open email app');
+                    // Don't prevent default - let it open email app
+                });
+            } else {
+                console.error('❌ Email link not found');
+            }
+            
+            // Test Discord info
+            const discordItem = Array.from(document.querySelectorAll('.contact-item'))
+                .find(item => item.textContent.includes('Discord'));
+            
+            if (discordItem) {
+                const discordValue = discordItem.querySelector('.contact-value');
+                if (discordValue && discordValue.textContent.trim() === 'gofie_vfx') {
+                    console.log('✅ Discord info correct:', discordValue.textContent);
+                } else {
+                    console.error('❌ Discord info incorrect');
+                }
+            } else {
+                console.error('❌ Discord item not found');
+            }
+            
+            // Test that portfolio link is removed
+            const portfolioItem = Array.from(document.querySelectorAll('.contact-item'))
+                .find(item => item.textContent.includes('Portfolio') || item.textContent.includes('Drive'));
+            
+            if (!portfolioItem) {
+                console.log('✅ Portfolio/Drive link correctly removed');
+            } else {
+                console.error('❌ Portfolio/Drive link still present');
+            }
+            
+            // Count contact items
+            const contactItems = document.querySelectorAll('.contact-item');
+            console.log('📊 Total contact items:', contactItems.length);
+            
+            if (contactItems.length === 2) {
+                console.log('✅ Correct number of contact items (2)');
+            } else {
+                console.error('❌ Incorrect number of contact items, expected 2, got', contactItems.length);
+            }
+            
+            console.log('🎯 Test complete - check console for results');
+        });
+    </script>
+</body>
+</html>

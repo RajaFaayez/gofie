@@ -176,10 +176,10 @@ A one-page, fully responsive portfolio website for GofieVFX, a professional vide
 
 #### Acceptance Criteria
 
-1. THE Portfolio_Website SHALL display "📩 Email: your@email.com"
-2. THE Portfolio_Website SHALL display "💬 Discord / WhatsApp: your contact"
-3. THE Portfolio_Website SHALL display "🌐 Portfolio / Drive Link: your link"
-4. THE contact details SHALL be clearly visible and formatted
+1. THE Portfolio_Website SHALL display a clickable email link "📩 Email: Gofievfx@gmail.com" that opens the user's email application
+2. THE Portfolio_Website SHALL display "💬 Discord: gofie_vfx"
+3. THE contact details SHALL be clearly visible and formatted
+4. WHEN a user clicks the email contact item, THE system SHALL open the default email application with the recipient pre-filled
 
 ### Requirement 14: Visual Design and User Experience
 

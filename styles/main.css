@@ -1335,6 +1335,34 @@ section:not(.hero):not(.footer)::before {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
+/* Clickable contact link styles */
+.contact-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.contact-link:hover {
+  background-color: var(--color-bg-accent);
+  border-color: rgba(255, 107, 53, 0.5);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.contact-link:hover .contact-value {
+  color: var(--color-accent-primary);
+  text-decoration: underline;
+}
+
+.contact-link:active {
+  transform: translateY(-1px);
+}
+
+.contact-link:focus {
+  outline: 2px solid var(--color-accent-primary);
+  outline-offset: 2px;
+}
+
 .contact-icon {
   font-size: 1.5rem;
   flex-shrink: 0;
