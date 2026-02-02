@@ -49,14 +49,13 @@ class PortfolioApp {
     this.setupKeyboardNavigation();
   }
 
-  // Mobile Hamburger Menu - Simplified and Bulletproof
+  // Mobile Hamburger Menu - Clean and Reliable
   setupMobileMenu() {
     console.log('🔧 Setting up mobile menu...');
     
     const navToggle = document.getElementById('navToggle');
     const navMenu = document.getElementById('navMenu');
     const navLinks = document.querySelectorAll('.nav-link');
-    const body = document.body;
 
     if (!navToggle || !navMenu) {
       console.error('❌ Mobile menu elements not found:', { navToggle: !!navToggle, navMenu: !!navMenu });
@@ -65,61 +64,18 @@ class PortfolioApp {
 
     console.log('✅ Mobile menu elements found');
 
-    // Simple, reliable toggle function
-    const toggleMenu = () => {
-      const isActive = navMenu.classList.contains('active');
-      console.log('🔄 Toggling menu, currently active:', isActive);
-      
-      if (isActive) {
-        // Close menu
-        navToggle.classList.remove('active');
-        navMenu.classList.remove('active');
-        body.classList.remove('nav-open');
-        console.log('📴 Menu closed');
-      } else {
-        // Open menu
-        navToggle.classList.add('active');
-        navMenu.classList.add('active');
-        body.classList.add('nav-open');
-        console.log('📱 Menu opened');
-      }
-    };
-
-    // Add event listeners with maximum compatibility
-    console.log('🎯 Adding event listeners...');
-    
-    // Method 1: Standard click event
+    // Clean toggle handler - works reliably on all mobile browsers
     navToggle.addEventListener('click', (e) => {
-      console.log('🖱️ Click event fired');
+      console.log('🖱️ Menu toggle clicked');
       e.preventDefault();
-      e.stopPropagation();
-      toggleMenu();
+      
+      navToggle.classList.toggle('active');
+      navMenu.classList.toggle('active');
+      document.body.classList.toggle('nav-open');
+      
+      const isActive = navMenu.classList.contains('active');
+      console.log(isActive ? '📱 Menu opened' : '📴 Menu closed');
     });
-
-    // Method 2: Touch events for mobile
-    navToggle.addEventListener('touchstart', (e) => {
-      console.log('👆 Touch start');
-      e.preventDefault();
-    }, { passive: false });
-
-    navToggle.addEventListener('touchend', (e) => {
-      console.log('👆 Touch end - triggering toggle');
-      e.preventDefault();
-      e.stopPropagation();
-      toggleMenu();
-    }, { passive: false });
-
-    // Method 3: Pointer events (modern browsers)
-    if ('onpointerdown' in window) {
-      navToggle.addEventListener('pointerdown', (e) => {
-        console.log('👉 Pointer down');
-        if (e.pointerType === 'touch') {
-          e.preventDefault();
-          e.stopPropagation();
-          toggleMenu();
-        }
-      });
-    }
 
     // Close menu when clicking nav links
     navLinks.forEach((link, index) => {
@@ -127,7 +83,7 @@ class PortfolioApp {
         console.log(`🔗 Nav link ${index} clicked, closing menu`);
         navToggle.classList.remove('active');
         navMenu.classList.remove('active');
-        body.classList.remove('nav-open');
+        document.body.classList.remove('nav-open');
       });
     });
 
@@ -138,7 +94,7 @@ class PortfolioApp {
           console.log('🌐 Outside click, closing menu');
           navToggle.classList.remove('active');
           navMenu.classList.remove('active');
-          body.classList.remove('nav-open');
+          document.body.classList.remove('nav-open');
         }
       }
     });
@@ -149,7 +105,7 @@ class PortfolioApp {
         console.log('⌨️ Escape key, closing menu');
         navToggle.classList.remove('active');
         navMenu.classList.remove('active');
-        body.classList.remove('nav-open');
+        document.body.classList.remove('nav-open');
       }
     });
 
@@ -159,30 +115,9 @@ class PortfolioApp {
         console.log('📏 Window resized to desktop, closing menu');
         navToggle.classList.remove('active');
         navMenu.classList.remove('active');
-        body.classList.remove('nav-open');
+        document.body.classList.remove('nav-open');
       }
     });
-
-    // Test the hamburger button immediately
-    setTimeout(() => {
-      console.log('🧪 Testing hamburger button...');
-      const rect = navToggle.getBoundingClientRect();
-      console.log('📐 Hamburger button position:', {
-        top: rect.top,
-        left: rect.left,
-        width: rect.width,
-        height: rect.height,
-        visible: rect.width > 0 && rect.height > 0
-      });
-      
-      const computedStyle = window.getComputedStyle(navToggle);
-      console.log('🎨 Hamburger button styles:', {
-        display: computedStyle.display,
-        visibility: computedStyle.visibility,
-        pointerEvents: computedStyle.pointerEvents,
-        zIndex: computedStyle.zIndex
-      });
-    }, 1000);
 
     console.log('✅ Mobile menu setup complete');
   }

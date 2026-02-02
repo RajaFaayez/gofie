@@ -285,16 +285,6 @@ a:hover {
     background: rgba(0, 0, 0, 0.1);
     border-radius: 4px;
   }
-  
-  /* Ensure nav-container doesn't block touch events */
-  .nav-container {
-    pointer-events: none;
-  }
-  
-  /* Re-enable pointer events for interactive elements */
-  .nav-container > * {
-    pointer-events: auto;
-  }
 }
 
 /* Center the hamburger lines within the larger touch target */

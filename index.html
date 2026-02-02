@@ -22,23 +22,7 @@
             <a href="#hero" class="nav-logo">GofieVFX</a>
             
             <!-- Mobile Menu Toggle -->
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" 
-                    ontouchend="this.onclick && this.onclick(event)" 
-                    onclick="
-                        const menu = document.getElementById('navMenu');
-                        const isActive = menu.classList.contains('active');
-                        if (isActive) {
-                            this.classList.remove('active');
-                            menu.classList.remove('active');
-                            document.body.classList.remove('nav-open');
-                        } else {
-                            this.classList.add('active');
-                            menu.classList.add('active');
-                            document.body.classList.add('nav-open');
-                        }
-                        event.preventDefault();
-                        event.stopPropagation();
-                    ">
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
                 <span class="hamburger-line"></span>
                 <span class="hamburger-line"></span>
                 <span class="hamburger-line"></span>
