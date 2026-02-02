@@ -49,148 +49,152 @@ class PortfolioApp {
     this.setupKeyboardNavigation();
   }
 
-  // Mobile Hamburger Menu
+  // Mobile Hamburger Menu - Simplified and Bulletproof
   setupMobileMenu() {
+    console.log('🔧 Setting up mobile menu...');
+    
     const navToggle = document.getElementById('navToggle');
     const navMenu = document.getElementById('navMenu');
     const navLinks = document.querySelectorAll('.nav-link');
     const body = document.body;
 
     if (!navToggle || !navMenu) {
-      console.warn('Mobile menu elements not found');
+      console.error('❌ Mobile menu elements not found:', { navToggle: !!navToggle, navMenu: !!navMenu });
       return;
     }
 
-    console.log('Setting up mobile menu...');
+    console.log('✅ Mobile menu elements found');
 
-    // Enhanced click handler with touch support
-    const toggleMenu = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      
+    // Simple, reliable toggle function
+    const toggleMenu = () => {
       const isActive = navMenu.classList.contains('active');
-      console.log('Menu toggle clicked, currently active:', isActive);
+      console.log('🔄 Toggling menu, currently active:', isActive);
       
       if (isActive) {
-        this.closeMobileMenu();
+        // Close menu
+        navToggle.classList.remove('active');
+        navMenu.classList.remove('active');
+        body.classList.remove('nav-open');
+        console.log('📴 Menu closed');
       } else {
-        this.openMobileMenu();
+        // Open menu
+        navToggle.classList.add('active');
+        navMenu.classList.add('active');
+        body.classList.add('nav-open');
+        console.log('📱 Menu opened');
       }
     };
 
-    // Add multiple event listeners for better mobile compatibility
-    navToggle.addEventListener('click', toggleMenu, { passive: false });
-    navToggle.addEventListener('touchend', toggleMenu, { passive: false });
+    // Add event listeners with maximum compatibility
+    console.log('🎯 Adding event listeners...');
     
-    // Prevent double-tap zoom on the hamburger button
+    // Method 1: Standard click event
+    navToggle.addEventListener('click', (e) => {
+      console.log('🖱️ Click event fired');
+      e.preventDefault();
+      e.stopPropagation();
+      toggleMenu();
+    });
+
+    // Method 2: Touch events for mobile
     navToggle.addEventListener('touchstart', (e) => {
+      console.log('👆 Touch start');
       e.preventDefault();
     }, { passive: false });
 
-    // Close menu when clicking on nav links
-    navLinks.forEach(link => {
-      const closeMenu = (e) => {
-        console.log('Nav link clicked, closing menu');
-        this.closeMobileMenu();
-      };
-      
-      link.addEventListener('click', closeMenu);
-      link.addEventListener('touchend', closeMenu, { passive: false });
+    navToggle.addEventListener('touchend', (e) => {
+      console.log('👆 Touch end - triggering toggle');
+      e.preventDefault();
+      e.stopPropagation();
+      toggleMenu();
+    }, { passive: false });
+
+    // Method 3: Pointer events (modern browsers)
+    if ('onpointerdown' in window) {
+      navToggle.addEventListener('pointerdown', (e) => {
+        console.log('👉 Pointer down');
+        if (e.pointerType === 'touch') {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleMenu();
+        }
+      });
+    }
+
+    // Close menu when clicking nav links
+    navLinks.forEach((link, index) => {
+      link.addEventListener('click', () => {
+        console.log(`🔗 Nav link ${index} clicked, closing menu`);
+        navToggle.classList.remove('active');
+        navMenu.classList.remove('active');
+        body.classList.remove('nav-open');
+      });
     });
 
-    // Close menu when clicking outside (enhanced for mobile)
-    const closeOnOutsideClick = (e) => {
-      const isClickInsideNav = navToggle.contains(e.target) || navMenu.contains(e.target);
-      
-      if (!isClickInsideNav && navMenu.classList.contains('active')) {
-        console.log('Outside click detected, closing menu');
-        this.closeMobileMenu();
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+        if (navMenu.classList.contains('active')) {
+          console.log('🌐 Outside click, closing menu');
+          navToggle.classList.remove('active');
+          navMenu.classList.remove('active');
+          body.classList.remove('nav-open');
+        }
       }
-    };
-    
-    document.addEventListener('click', closeOnOutsideClick);
-    document.addEventListener('touchend', closeOnOutsideClick, { passive: true });
+    });
 
     // Close menu on escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && navMenu.classList.contains('active')) {
-        console.log('Escape key pressed, closing menu');
-        this.closeMobileMenu();
+        console.log('⌨️ Escape key, closing menu');
+        navToggle.classList.remove('active');
+        navMenu.classList.remove('active');
+        body.classList.remove('nav-open');
       }
     });
 
     // Handle window resize
     window.addEventListener('resize', () => {
       if (window.innerWidth > 767 && navMenu.classList.contains('active')) {
-        console.log('Window resized to desktop, closing menu');
-        this.closeMobileMenu();
+        console.log('📏 Window resized to desktop, closing menu');
+        navToggle.classList.remove('active');
+        navMenu.classList.remove('active');
+        body.classList.remove('nav-open');
       }
     });
 
-    // Add visual feedback for touch
-    navToggle.addEventListener('touchstart', () => {
-      navToggle.style.opacity = '0.7';
-    }, { passive: true });
+    // Test the hamburger button immediately
+    setTimeout(() => {
+      console.log('🧪 Testing hamburger button...');
+      const rect = navToggle.getBoundingClientRect();
+      console.log('📐 Hamburger button position:', {
+        top: rect.top,
+        left: rect.left,
+        width: rect.width,
+        height: rect.height,
+        visible: rect.width > 0 && rect.height > 0
+      });
+      
+      const computedStyle = window.getComputedStyle(navToggle);
+      console.log('🎨 Hamburger button styles:', {
+        display: computedStyle.display,
+        visibility: computedStyle.visibility,
+        pointerEvents: computedStyle.pointerEvents,
+        zIndex: computedStyle.zIndex
+      });
+    }, 1000);
 
-    navToggle.addEventListener('touchend', () => {
-      setTimeout(() => {
-        navToggle.style.opacity = '1';
-      }, 150);
-    }, { passive: true });
-
-    console.log('Mobile menu setup complete');
+    console.log('✅ Mobile menu setup complete');
   }
 
   openMobileMenu() {
-    const navToggle = document.getElementById('navToggle');
-    const navMenu = document.getElementById('navMenu');
-    const body = document.body;
-
-    if (!navToggle || !navMenu) {
-      console.error('Cannot open mobile menu - elements not found');
-      return;
-    }
-
-    console.log('Opening mobile menu...');
-
-    navToggle.classList.add('active');
-    navMenu.classList.add('active');
-    body.classList.add('nav-open');
-
-    // Set focus to first menu item for accessibility
-    const firstNavLink = navMenu.querySelector('.nav-link');
-    if (firstNavLink) {
-      setTimeout(() => {
-        firstNavLink.focus();
-      }, 300); // Wait for animation to complete
-    }
-
-    // Trap focus within menu
-    this.trapFocus(navMenu);
-    
-    console.log('Mobile menu opened');
+    // Deprecated - functionality moved to setupMobileMenu
+    console.log('⚠️ openMobileMenu called - use setupMobileMenu instead');
   }
 
   closeMobileMenu() {
-    const navToggle = document.getElementById('navToggle');
-    const navMenu = document.getElementById('navMenu');
-    const body = document.body;
-
-    if (!navToggle || !navMenu) {
-      console.error('Cannot close mobile menu - elements not found');
-      return;
-    }
-
-    console.log('Closing mobile menu...');
-
-    navToggle.classList.remove('active');
-    navMenu.classList.remove('active');
-    body.classList.remove('nav-open');
-
-    // Remove focus trap
-    this.removeFocusTrap();
-    
-    console.log('Mobile menu closed');
+    // Deprecated - functionality moved to setupMobileMenu  
+    console.log('⚠️ closeMobileMenu called - use setupMobileMenu instead');
   }
 
   // Focus trap for accessibility
@@ -1454,6 +1458,105 @@ Source: ${data.source}
 
 // Initialize the application
 const app = new PortfolioApp();
+
+// Fallback mobile menu initialization (in case main app fails)
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('🚀 DOM loaded - checking mobile menu fallback...');
+  
+  // Wait a bit for main app to initialize
+  setTimeout(() => {
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+    
+    if (!navToggle || !navMenu) {
+      console.log('❌ Mobile menu elements not found for fallback');
+      return;
+    }
+    
+    // Check if menu is already working
+    const hasClickListener = navToggle.onclick !== null;
+    const hasEventListeners = navToggle.getAttribute('data-menu-initialized') === 'true';
+    
+    if (!hasClickListener && !hasEventListeners) {
+      console.log('🔧 Initializing fallback mobile menu...');
+      
+      // Simple fallback toggle
+      const fallbackToggle = () => {
+        console.log('🔄 Fallback toggle activated');
+        const isActive = navMenu.classList.contains('active');
+        
+        if (isActive) {
+          navToggle.classList.remove('active');
+          navMenu.classList.remove('active');
+          document.body.classList.remove('nav-open');
+          console.log('📴 Fallback: Menu closed');
+        } else {
+          navToggle.classList.add('active');
+          navMenu.classList.add('active');
+          document.body.classList.add('nav-open');
+          console.log('📱 Fallback: Menu opened');
+        }
+      };
+      
+      // Add all possible event types
+      navToggle.addEventListener('click', fallbackToggle);
+      navToggle.addEventListener('touchend', fallbackToggle);
+      navToggle.addEventListener('pointerdown', fallbackToggle);
+      
+      // Mark as initialized
+      navToggle.setAttribute('data-menu-initialized', 'true');
+      
+      console.log('✅ Fallback mobile menu initialized');
+    } else {
+      console.log('✅ Mobile menu already initialized by main app');
+    }
+  }, 2000);
+});
+
+// Emergency mobile menu fix - runs immediately
+(function() {
+  console.log('🚨 Emergency mobile menu check...');
+  
+  const initEmergencyMenu = () => {
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+    
+    if (navToggle && navMenu && !navToggle.hasAttribute('data-emergency-init')) {
+      console.log('🆘 Setting up emergency mobile menu...');
+      
+      navToggle.onclick = function(e) {
+        console.log('🆘 Emergency click handler activated');
+        e.preventDefault();
+        
+        const isActive = navMenu.classList.contains('active');
+        
+        if (isActive) {
+          navToggle.classList.remove('active');
+          navMenu.classList.remove('active');
+          document.body.classList.remove('nav-open');
+        } else {
+          navToggle.classList.add('active');
+          navMenu.classList.add('active');
+          document.body.classList.add('nav-open');
+        }
+      };
+      
+      navToggle.setAttribute('data-emergency-init', 'true');
+      console.log('✅ Emergency mobile menu ready');
+    }
+  };
+  
+  // Try immediately
+  initEmergencyMenu();
+  
+  // Try again when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initEmergencyMenu);
+  }
+  
+  // Try again after a delay
+  setTimeout(initEmergencyMenu, 1000);
+})();
 
 // Cleanup on page unload for performance
 window.addEventListener('beforeunload', () => {

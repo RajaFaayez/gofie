@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Menu Diagnostic Test</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #0a0a0a;
+            color: white;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .diagnostic-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #2a2a2a;
+            border-radius: 5px;
+        }
+        
+        .test-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: #ff6b35;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .test-button:hover {
+            background: #e55a2b;
+        }
+        
+        .test-button:active {
+            background: #cc4d24;
+            transform: scale(0.98);
+        }
+        
+        .hamburger-test {
+            width: 50px;
+            height: 50px;
+            background: #ff6b35;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 10px auto;
+            position: relative;
+        }
+        
+        .hamburger-line {
+            width: 30px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .hamburger-test.active .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .hamburger-test.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger-test.active .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+        
+        .log-container {
+            background: #000;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        
+        .device-info {
+            background: #333;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-pass { background: #4CAF50; }
+        .status-fail { background: #f44336; }
+        .status-warn { background: #ff9800; }
+        
+        .instructions {
+            background: #2c5aa0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .instructions h3 {
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .instructions ol {
+            margin-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="diagnostic-container">
+        <h1>🔧 Mobile Menu Diagnostic Test</h1>
+        
+        <div class="instructions">
+            <h3>📱 Test Instructions:</h3>
+            <ol>
+                <li>Open this page on your mobile device (the same one where the menu doesn't work)</li>
+                <li>Test each button below by tapping them</li>
+                <li>Check the log messages at the bottom</li>
+                <li>Take a screenshot of the results and send to developer</li>
+            </ol>
+        </div>
+        
+        <div class="device-info" id="deviceInfo">
+            Loading device information...
+        </div>
+        
+        <div class="test-section">
+            <h3>🖱️ Basic Click Test</h3>
+            <p>This tests if basic click events work on your device:</p>
+            <button class="test-button" onclick="logEvent('Basic click test - SUCCESS')">
+                Tap This Button
+            </button>
+        </div>
+        
+        <div class="test-section">
+            <h3>👆 Touch Event Test</h3>
+            <p>This tests touch-specific events:</p>
+            <button class="test-button" id="touchTest">
+                Touch Test Button
+            </button>
+        </div>
+        
+        <div class="test-section">
+            <h3>🍔 Hamburger Button Test</h3>
+            <p>This tests a hamburger button similar to your site:</p>
+            <button class="hamburger-test" id="hamburgerTest">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+        
+        <div class="test-section">
+            <h3>🎯 Position Test</h3>
+            <p>This tests if the button position is detected correctly:</p>
+            <button class="test-button" id="positionTest">
+                Position Test Button
+            </button>
+        </div>
+        
+        <div class="test-section">
+            <h3>📊 Test Results</h3>
+            <div id="testResults">
+                <div><span class="status-indicator status-warn"></span>Tests not started</div>
+            </div>
+        </div>
+        
+        <div class="log-container" id="logContainer">
+            Diagnostic log will appear here...<br>
+        </div>
+    </div>
+
+    <script>
+        let testResults = {
+            basicClick: false,
+            touchEvents: false,
+            hamburgerButton: false,
+            positionDetection: false
+        };
+        
+        let logMessages = [];
+        
+        function logEvent(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logMessage = `[${timestamp}] ${message}`;
+            logMessages.push(logMessage);
+            
+            // Keep only last 20 messages
+            if (logMessages.length > 20) {
+                logMessages = logMessages.slice(-20);
+            }
+            
+            document.getElementById('logContainer').innerHTML = logMessages.join('<br>');
+            console.log(logMessage);
+        }
+        
+        function updateTestResults() {
+            const resultsDiv = document.getElementById('testResults');
+            let html = '';
+            
+            Object.keys(testResults).forEach(test => {
+                const status = testResults[test] ? 'status-pass' : 'status-fail';
+                const statusText = testResults[test] ? 'PASS' : 'FAIL';
+                const testName = test.replace(/([A-Z])/g, ' $1').toLowerCase();
+                html += `<div><span class="status-indicator ${status}"></span>${testName}: ${statusText}</div>`;
+            });
+            
+            resultsDiv.innerHTML = html;
+        }
+        
+        function initDiagnostics() {
+            logEvent('🚀 Starting mobile menu diagnostics...');
+            
+            // Device information
+            const deviceInfo = {
+                userAgent: navigator.userAgent,
+                screenWidth: window.screen.width,
+                screenHeight: window.screen.height,
+                viewportWidth: window.innerWidth,
+                viewportHeight: window.innerHeight,
+                touchSupport: 'ontouchstart' in window,
+                pointerSupport: 'onpointerdown' in window,
+                devicePixelRatio: window.devicePixelRatio,
+                platform: navigator.platform,
+                language: navigator.language
+            };
+            
+            document.getElementById('deviceInfo').innerHTML = `
+                <strong>Device Information:</strong><br>
+                Browser: ${deviceInfo.userAgent.includes('Chrome') ? 'Chrome' : 'Other'}<br>
+                Screen: ${deviceInfo.screenWidth}x${deviceInfo.screenHeight}<br>
+                Viewport: ${deviceInfo.viewportWidth}x${deviceInfo.viewportHeight}<br>
+                Touch Support: ${deviceInfo.touchSupport ? 'Yes' : 'No'}<br>
+                Pointer Support: ${deviceInfo.pointerSupport ? 'Yes' : 'No'}<br>
+                Device Pixel Ratio: ${deviceInfo.devicePixelRatio}<br>
+                Platform: ${deviceInfo.platform}
+            `;
+            
+            logEvent(`📱 Device: ${deviceInfo.viewportWidth}x${deviceInfo.viewportHeight}, Touch: ${deviceInfo.touchSupport}`);
+            
+            // Test 1: Basic click (already handled by onclick)
+            
+            // Test 2: Touch events
+            const touchTestBtn = document.getElementById('touchTest');
+            
+            touchTestBtn.addEventListener('touchstart', (e) => {
+                logEvent('👆 Touch start detected');
+            }, { passive: false });
+            
+            touchTestBtn.addEventListener('touchend', (e) => {
+                logEvent('👆 Touch end detected - SUCCESS');
+                testResults.touchEvents = true;
+                updateTestResults();
+                e.preventDefault();
+            }, { passive: false });
+            
+            touchTestBtn.addEventListener('click', (e) => {
+                logEvent('🖱️ Click on touch button detected');
+                if (!testResults.touchEvents) {
+                    testResults.touchEvents = true;
+                    updateTestResults();
+                }
+            });
+            
+            // Test 3: Hamburger button
+            const hamburgerBtn = document.getElementById('hamburgerTest');
+            
+            const toggleHamburger = (e) => {
+                logEvent('🍔 Hamburger button activated - SUCCESS');
+                hamburgerBtn.classList.toggle('active');
+                testResults.hamburgerButton = true;
+                updateTestResults();
+                e.preventDefault();
+            };
+            
+            hamburgerBtn.addEventListener('click', toggleHamburger);
+            hamburgerBtn.addEventListener('touchend', toggleHamburger);
+            
+            // Test 4: Position detection
+            const positionBtn = document.getElementById('positionTest');
+            
+            positionBtn.addEventListener('click', (e) => {
+                const rect = positionBtn.getBoundingClientRect();
+                logEvent(`📍 Button position: ${rect.left.toFixed(1)}, ${rect.top.toFixed(1)}, size: ${rect.width.toFixed(1)}x${rect.height.toFixed(1)}`);
+                logEvent(`📍 Click position: ${e.clientX}, ${e.clientY}`);
+                testResults.positionDetection = true;
+                updateTestResults();
+            });
+            
+            positionBtn.addEventListener('touchend', (e) => {
+                if (e.changedTouches && e.changedTouches[0]) {
+                    const touch = e.changedTouches[0];
+                    logEvent(`📍 Touch position: ${touch.clientX}, ${touch.clientY}`);
+                }
+            });
+            
+            updateTestResults();
+            logEvent('✅ Diagnostic tests initialized');
+        }
+        
+        // Test basic click functionality
+        function testBasicClick() {
+            logEvent('🖱️ Basic click test - SUCCESS');
+            testResults.basicClick = true;
+            updateTestResults();
+        }
+        
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initDiagnostics);
+        } else {
+            initDiagnostics();
+        }
+        
+        // Also initialize the basic click test
+        window.testBasicClick = testBasicClick;
+        
+        // Monitor for any JavaScript errors
+        window.addEventListener('error', (e) => {
+            logEvent(`❌ JavaScript Error: ${e.message} at ${e.filename}:${e.lineno}`);
+        });
+        
+        // Monitor for unhandled promise rejections
+        window.addEventListener('unhandledrejection', (e) => {
+            logEvent(`❌ Unhandled Promise Rejection: ${e.reason}`);
+        });
+        
+        logEvent('🔧 Diagnostic page loaded');
+    </script>
+</body>
+</html>
