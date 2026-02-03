@@ -143,18 +143,37 @@ class PortfolioApp {
     let ticking = false;
 
     // Smooth scroll to top function
-    const scrollToTop = () => {
-      const scrollDuration = 300; // Much faster: 300ms instead of 800ms
-      const scrollStep = -window.scrollY / (scrollDuration / 15);
-      
-      const scrollInterval = setInterval(() => {
-        if (window.scrollY !== 0) {
-          window.scrollBy(0, scrollStep);
-        } else {
-          clearInterval(scrollInterval);
-        }
-      }, 15);
-    };
+   const scrollToTop = () => {
+  const html = document.documentElement;
+  const body = document.body;
+
+  // Kill momentum scrolling (THIS IS THE KEY)
+  body.style.overflow = 'hidden';
+  body.offsetHeight; // force reflow
+  body.style.overflow = '';
+
+  html.style.scrollBehavior = 'auto';
+
+  const start = window.scrollY;
+  const duration = 220; // now this ACTUALLY matters
+  const startTime = performance.now();
+
+  const animate = time => {
+    const t = Math.min((time - startTime) / duration, 1);
+    const eased = t * (2 - t); // fast but controlled
+
+    window.scrollTo(0, start * (1 - eased));
+
+    if (t < 1) {
+      requestAnimationFrame(animate);
+    }
+  };
+
+  requestAnimationFrame(animate);
+};
+
+
+
 
     // Show/hide button based on scroll position
     const handleScroll = () => {
