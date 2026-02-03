@@ -214,7 +214,7 @@ a:hover {
 }
 
 .nav-logo {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
   color: var(--color-accent-primary);
   text-decoration: none;
@@ -282,14 +282,22 @@ a:hover {
   
   /* When menu is active, fix hamburger button position */
   .nav-menu.active ~ .nav-container .nav-toggle,
-  body.nav-open .nav-toggle {
-    position: fixed !important;
-    top: 15px;
-    right: 35px; /* Moved left by 15px from original 20px */
-    z-index: 99999 !important;
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-  }
+  /* When menu is active, fix hamburger button position */
+.nav-menu.active ~ .nav-container .nav-toggle,
+body.nav-open .nav-toggle {
+  position: fixed !important;
+  top: 15px;
+  right: 20px; /* Adjusted for better spacing */
+  z-index: 99999 !important;
+  background: rgba(0, 0, 0, 0.4); /* Darker for better contrast */
+  border-radius: 8px; /* Slightly larger for smoother look */
+  width: 44px; /* Match touch target size */
+  height: 44px; /* Match touch target size */
+  display: flex; /* Ensure proper centering */
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* Add subtle shadow for depth */
+}
 }
 
 /* Center the hamburger lines within the larger touch target */

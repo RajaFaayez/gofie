@@ -155,7 +155,7 @@ class PortfolioApp {
   html.style.scrollBehavior = 'auto';
 
   const start = window.scrollY;
-  const duration = 220; // now this ACTUALLY matters
+  const duration = 600; // Increased from 220ms for smoother, slower scroll
   const startTime = performance.now();
 
   const animate = time => {
@@ -295,30 +295,34 @@ class PortfolioApp {
     const navLinks = document.querySelectorAll('.nav-link');
     
     navLinks.forEach(link => {
-      // Ensure minimum touch target size (44px recommended)
-      const linkRect = link.getBoundingClientRect();
-      if (linkRect.height < 44) {
-        link.style.minHeight = '44px';
-        link.style.display = 'flex';
-        link.style.alignItems = 'center';
-        link.style.justifyContent = 'center';
+  link.addEventListener('pointerdown', (e) => {
+    console.log('🔗 Nav link pointerdown:', link.getAttribute('href'));  // Optional: Remove after testing
+    e.preventDefault();  // Prevent default link behavior immediately
+    
+    const targetId = link.getAttribute('href');
+    const targetSection = document.querySelector(targetId);
+    
+    if (targetSection) {
+      const navbarHeight = document.querySelector('.navbar').offsetHeight;
+      const offsetTop = targetSection.offsetTop - navbarHeight - 20;
+      
+      if ('scrollBehavior' in document.documentElement.style) {
+        window.scrollTo({
+          top: offsetTop,
+          behavior: 'smooth'
+        });
+      } else {
+        this.smoothScrollTo(offsetTop, 800);
       }
-      
-      // Add touch feedback
-      link.addEventListener('touchstart', (e) => {
-        link.classList.add('touch-active');
-      }, { passive: true });
-      
-      link.addEventListener('touchend', (e) => {
-        setTimeout(() => {
-          link.classList.remove('touch-active');
-        }, 150);
-      }, { passive: true });
-      
-      link.addEventListener('touchcancel', (e) => {
-        link.classList.remove('touch-active');
-      }, { passive: true });
-    });
+    }
+    
+    // Touch feedback (optional)
+    link.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+      link.style.transform = '';
+    }, 150);
+  });
+});
 
     // Prevent double-tap zoom on navigation
     const navbar = document.querySelector('.navbar');
@@ -348,31 +352,14 @@ class PortfolioApp {
     const navLinks = document.querySelectorAll('.nav-link');
     
     navLinks.forEach((link, index) => {
-      link.addEventListener('keydown', (e) => {
-        switch (e.key) {
-          case 'ArrowRight':
-          case 'ArrowDown':
-            e.preventDefault();
-            const nextIndex = (index + 1) % navLinks.length;
-            navLinks[nextIndex].focus();
-            break;
-          case 'ArrowLeft':
-          case 'ArrowUp':
-            e.preventDefault();
-            const prevIndex = index === 0 ? navLinks.length - 1 : index - 1;
-            navLinks[prevIndex].focus();
-            break;
-          case 'Home':
-            e.preventDefault();
-            navLinks[0].focus();
-            break;
-          case 'End':
-            e.preventDefault();
-            navLinks[navLinks.length - 1].focus();
-            break;
-        }
-      });
-    });
+  link.addEventListener('pointerdown', (e) => {
+    console.log(`🔗 Nav link ${index} pointerdown, closing menu`);  // Optional: Remove after testing
+    e.preventDefault();  // Prevent navigation if not handled by smooth scroll
+    navToggle.classList.remove('active');
+    navMenu.classList.remove('active');
+    document.body.classList.remove('nav-open');
+  });
+});
   }
 
   initializeComponents() {
