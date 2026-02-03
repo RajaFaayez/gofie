@@ -449,6 +449,97 @@ a:hover {
   }
 }
 
+/* Back to Top Button - Mobile Only */
+.back-to-top {
+  position: fixed;
+  bottom: 80px; /* Moved up from 20px to 80px */
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  background: var(--color-accent-primary);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  display: none; /* Hidden by default */
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 1000;
+  
+  /* Mobile-specific optimizations */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.back-to-top:hover {
+  background: #e55a2b;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(255, 107, 53, 0.4);
+}
+
+.back-to-top:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 15px rgba(255, 107, 53, 0.3);
+}
+
+.back-to-top.visible {
+  display: flex;
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.back-to-top.hidden {
+  animation: fadeOutDown 0.3s ease-in;
+}
+
+.back-to-top svg {
+  transition: transform 0.2s ease;
+}
+
+.back-to-top:hover svg {
+  transform: translateY(-1px);
+}
+
+/* Show only on mobile devices */
+@media (max-width: 767px) {
+  .back-to-top {
+    display: none; /* Will be shown via JavaScript when scrolled */
+  }
+}
+
+/* Hide on desktop */
+@media (min-width: 768px) {
+  .back-to-top {
+    display: none !important;
+  }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+  }
+}
+
 /* Hero Section */
 .hero {
   min-height: 100vh;

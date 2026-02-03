@@ -27,6 +27,9 @@ class PortfolioApp {
     // Mobile hamburger menu
     this.setupMobileMenu();
     
+    // Back to top button (mobile only)
+    this.setupBackToTop();
+    
     // Navigation smooth scrolling
     this.setupSmoothScrolling();
     
@@ -65,17 +68,17 @@ class PortfolioApp {
     console.log('✅ Mobile menu elements found');
 
     // Clean toggle handler - works reliably on all mobile browsers
-    navToggle.addEventListener('click', (e) => {
-      console.log('🖱️ Menu toggle clicked');
-      e.preventDefault();
-      
-      navToggle.classList.toggle('active');
-      navMenu.classList.toggle('active');
-      document.body.classList.toggle('nav-open');
-      
-      const isActive = navMenu.classList.contains('active');
-      console.log(isActive ? '📱 Menu opened' : '📴 Menu closed');
-    });
+    navToggle.addEventListener('pointerdown', (e) => {
+  console.log('🖱️ Menu toggle pointerdown');  // Optional: Keep for debugging; remove in production
+  e.preventDefault();
+  
+  navToggle.classList.toggle('active');
+  navMenu.classList.toggle('active');
+  document.body.classList.toggle('nav-open');
+  
+  const isActive = navMenu.classList.contains('active');
+  console.log(isActive ? '📱 Menu opened' : '📴 Menu closed');
+});
 
     // Close menu when clicking nav links
     navLinks.forEach((link, index) => {
@@ -120,6 +123,106 @@ class PortfolioApp {
     });
 
     console.log('✅ Mobile menu setup complete');
+  }
+
+  // Back to Top Button - Mobile Only
+  setupBackToTop() {
+    // Only setup on mobile devices
+    if (window.innerWidth > 767) return;
+    
+    console.log('🔝 Setting up back to top button...');
+    
+    const backToTopBtn = document.getElementById('backToTop');
+    if (!backToTopBtn) {
+      console.warn('❌ Back to top button not found');
+      return;
+    }
+
+    let isVisible = false;
+    let scrollThreshold = 300; // Show after scrolling 300px
+    let ticking = false;
+
+    // Smooth scroll to top function
+    const scrollToTop = () => {
+      const scrollDuration = 300; // Much faster: 300ms instead of 800ms
+      const scrollStep = -window.scrollY / (scrollDuration / 15);
+      
+      const scrollInterval = setInterval(() => {
+        if (window.scrollY !== 0) {
+          window.scrollBy(0, scrollStep);
+        } else {
+          clearInterval(scrollInterval);
+        }
+      }, 15);
+    };
+
+    // Show/hide button based on scroll position
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          
+          if (scrollTop > scrollThreshold && !isVisible) {
+            // Show button
+            backToTopBtn.classList.remove('hidden');
+            backToTopBtn.classList.add('visible');
+            isVisible = true;
+            console.log('🔝 Back to top button shown');
+          } else if (scrollTop <= scrollThreshold && isVisible) {
+            // Hide button
+            backToTopBtn.classList.remove('visible');
+            backToTopBtn.classList.add('hidden');
+            
+            // Remove from DOM after animation
+            setTimeout(() => {
+              if (!isVisible) {
+                backToTopBtn.classList.remove('hidden');
+              }
+            }, 300);
+            
+            isVisible = false;
+            console.log('🔝 Back to top button hidden');
+          }
+          
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    // Click handler
+    backToTopBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      console.log('🔝 Back to top clicked');
+      scrollToTop();
+      
+      // Add click feedback
+      backToTopBtn.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        backToTopBtn.style.transform = '';
+      }, 150);
+    });
+
+    // Scroll listener
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // Handle orientation change
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => {
+        scrollThreshold = window.innerHeight * 0.4; // Adjust threshold based on viewport
+      }, 100);
+    });
+
+    // Handle window resize (hide on desktop)
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 767 && isVisible) {
+        backToTopBtn.classList.remove('visible');
+        backToTopBtn.classList.add('hidden');
+        isVisible = false;
+      }
+    });
+
+    console.log('✅ Back to top button setup complete');
   }
 
   openMobileMenu() {

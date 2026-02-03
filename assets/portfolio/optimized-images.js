@@ -7,7 +7,7 @@ class OptimizedImageLoader {
     this.supportsWebP = false;
     this.manifest = {
   "version": "1.0.0",
-  "generated": "2026-02-01T21:52:37.410Z",
+  "generated": "2026-02-03T07:23:45.813Z",
   "images": [
     {
       "id": 1,
